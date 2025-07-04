@@ -2,25 +2,11 @@
   "name": "@ymy/ui",
   "exports": {
     ".": "./exports.ts",
-    "./*": "./components/*",
-    "./basic/*": "./components/basic/*",
-    "./utils": "./lib/utils.ts"
+    "./*": "./components/*"
   },
   "peerDependencies": {
-    "@radix-ui/react-slot": "catalog:styles",
-    "@types/react": "catalog:types",
-    "@types/react-dom": "catalog:types",
-    "class-variance-authority": "catalog:styles",
-    "clsx": "catalog:styles",
-    "date-fns": "catalog:",
-    "lucide-react": "catalog:styles",
     "react": "catalog:web",
-    "react-day-picker": "catalog:",
     "react-dom": "catalog:web",
-    "tailwind-merge": "catalog:styles"
-
-  },
-  "dependencies": {
-    "@ymy/ui": "workspace:*"
+    "unocss": "catalog:styles"
   }
 }

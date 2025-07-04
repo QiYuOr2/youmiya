@@ -9,25 +9,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "catalog:",
-    "@radix-ui/react-slot": "catalog:styles",
-    "@tailwindcss/vite": "catalog:styles",
+    "@astrojs/react": "catalog:web",
     "@types/react": "catalog:types",
     "@types/react-dom": "catalog:types",
     "@ymy/ui": "workspace:*",
     "astro": "catalog:web",
-    "class-variance-authority": "catalog:styles",
-    "clsx": "catalog:styles",
-    "date-fns": "catalog:",
-    "lucide-react": "catalog:styles",
     "react": "catalog:web",
-    "react-day-picker": "catalog:",
     "react-dom": "catalog:web",
-    "tailwind-merge": "catalog:styles",
-    "tailwindcss": "catalog:styles"
+    "unocss": "catalog:styles"
   },
   "devDependencies": {
-    "globals": "catalog:utils",
-    "tw-animate-css": "catalog:styles"
+    "@types/node": "catalog:types",
+    "@unocss/reset": "catalog:styles"
   }
 }
