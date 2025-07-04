@@ -14,6 +14,7 @@
     "@types/react-dom": "catalog:types",
     "@ymy/ui": "workspace:*",
     "astro": "catalog:web",
+    "dayjs": "catalog:utils",
     "react": "catalog:web",
     "react-dom": "catalog:web",
     "unocss": "catalog:styles"

@@ -1,9 +1,13 @@
 ---
+import { Calendar } from '@/components/calendar';
 import Layout from '../layouts/Layout.astro';
+
 ---
 
 <Layout>
-  <div class="w-[65ch] mx-auto min-h-screen">
-    Youmiya
+  <div class="max-w-[100ch] mx-auto min-h-screen">
+    <div class="mt-4">
+      <Calendar />
+    </div>
   </div>
 </Layout>
