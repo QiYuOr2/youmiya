@@ -1,0 +1,15 @@
+{
+  "name": "@ymy/spider",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "cheerio": "catalog:parser",
+    "ics": "catalog:parser"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:types"
+  }
+}

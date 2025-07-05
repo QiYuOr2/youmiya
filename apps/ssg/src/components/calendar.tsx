@@ -1,31 +1,88 @@
+import type { EventVO } from '@/types'
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+import { getEventByDate, jstToCst } from '@/common/events'
 import 'dayjs/locale/ja'
 
 dayjs.locale('ja')
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 function dayInWeek(date: number) {
   return dayjs().date(date).format('dd')
 }
 
-function dateCard(date?: number) {
+const activeColors = {
+  'MyGO': { text: 'text-[#3388bb]', bg: 'bg-[#3388bb] bg-op-20' },
+  'BanG Dream': { text: 'text-[#C01427]', bg: 'bg-[#C01427] bg-op-20' },
+  'default': { text: 'text-[#68c068]', bg: 'bg-[#77DD77] bg-op-20' },
+}
+
+interface DateCardProps {
+  date?: number
+  event?: EventVO
+}
+function DateCard({ date, event }: DateCardProps) {
   const card = 'px-2.5 py-1.5 h-18 rounded-md'
 
   if (typeof date === 'undefined') {
     return <div className={`${card} bg-true-gray-50`}></div>
   }
 
+  let colors = activeColors.default
+  if (event) {
+    const key = Object.keys(activeColors).find(keyword =>
+      event.title.includes(keyword),
+    ) as keyof typeof activeColors
+
+    if (key) {
+      colors = activeColors[key]
+    }
+  }
+
+  const classesWithEvent = event
+    ? `${colors.text} ${colors.bg} cursor-pointer`
+    : 'bg-true-gray-100'
+
+  const restAttrs = {
+    ...(event ? { title: event.title } : {}),
+  }
+
   return (
-    <div className={`${card} bg-true-gray-100`}>
+    <div
+      className={`${card} flex flex-col  overflow-hidden ${classesWithEvent}`}
+      {...restAttrs}
+    >
       <div className="flex items justify-between">
-        <div className="font-bold">{date}</div>
+        <div className="">{date}</div>
         <div className="op-40">{dayInWeek(date)}</div>
       </div>
+      {event && (
+        <div className="mt-auto pb-.5">
+          {event.time?.start && event.time?.end
+            && (
+              <div className="text-xs">
+                <div>{jstToCst(`${event.date} ${event.time.start}`).format('h:mmA')}</div>
+                <div></div>
+              </div>
+            )}
+          <div className="text-xs font-bold line-clamp-1">{ event.title }</div>
+        </div>
+      )}
     </div>
   )
 }
 
-export function Calendar() {
-  const today = dayjs()
+interface CalendarProps {
+  events: EventVO[]
+  month: string
+  className?: string
+  id?: string
+}
+
+export function Calendar({ id, month, events, className }: CalendarProps) {
+  const today = dayjs(month)
   const totalDays = today.daysInMonth()
   const yearMonth = today.format('YYYY 年 MM 月')
 
@@ -42,13 +99,18 @@ export function Calendar() {
   })
 
   return (
-    <div className="rounded-md border shadow-sm  p-4">
+    <div id={id} className={`rounded-md shadow bg-white p-4 ${className}`}>
       <div className="text-xl mb-3 font-bold">{ yearMonth }</div>
-      <div className="grid grid-cols-7 gap-3">
+      <div className="grid grid-cols-7 gap-2">
         {
-          [...leading, ...days, ...trailing].map((value: number | undefined) => (
-            dateCard(value)
-          ))
+          [...leading, ...days, ...trailing]
+            .map((value: number | undefined) => (
+              <DateCard
+                date={value}
+                event={value ? getEventByDate(events, value) : undefined}
+              />
+            ),
+            )
         }
       </div>
     </div>

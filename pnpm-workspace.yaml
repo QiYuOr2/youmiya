@@ -12,7 +12,13 @@ catalogs:
     lint-staged: ^16.1.2
     simple-git-hooks: ^2.13.0
 
+  parser:
+    cheerio: ^1.1.0
+    ics: ^3.8.1
+    yaml: ^2.8.0
+
   styles:
+    '@iconify-json/mdi': ^1.2.3
     '@unocss/reset': ^66.3.2
     unocss: ^66.3.2
 
@@ -24,7 +30,6 @@ catalogs:
   utils:
     dayjs: ^1.11.13
     fs-extra: ^11.3.0
-    yaml: ^2.8.0
 
   web:
     '@astrojs/react': ^4.3.0

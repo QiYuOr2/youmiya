@@ -6,6 +6,6 @@ export default antfu(
     type: 'app',
     pnpm: true,
     typescript: true,
-    ignores: ['**/*.svg', 'apps/ssg/.astro', 'apps/ssg/public'],
+    ignores: ['**/*.{svg,png,jpg,ics,json}', 'apps/ssg/.astro', 'apps/ssg/public'],
   },
 )

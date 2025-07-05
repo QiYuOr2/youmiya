@@ -1,8 +1,10 @@
 {
   "private": true,
   "scripts": {
+    "build": "pnpm --filter @ymy/ssg build",
     "dev:ssg": "pnpm --filter @ymy/ssg dev",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "spider": "pnpm --filter @ymy/spider start"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:cli",
@@ -10,7 +12,7 @@
     "fs-extra": "catalog:utils",
     "lint-staged": "catalog:cli",
     "simple-git-hooks": "catalog:cli",
-    "yaml": "catalog:utils"
+    "yaml": "catalog:parser"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
