@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react'
 import type { EventVO } from '@/types'
 import { useMemo } from 'react'
 import { jstToCst } from '@/common/events'
@@ -45,12 +46,18 @@ export function ClickMenu({ open, targetRect, events, ...rest }: ClickMenuProps)
     return style
   }, [targetRect])
 
-  const floatBox = 'px-3 py-2 bg-white op-95 rounded-lg shadow'
+  const FloatBox = ({ className, children }: PropsWithChildren<{ className?: string }>) => (
+    <div
+      className={`px-3 py-2 bg-white/60 rounded-lg shadow-xl backdrop-blur-md transition-all ${className}`}
+    >
+      {children}
+    </div>
+  )
 
   const Info = ({ event }: { event: EventVO }) => (
     <>
-      <div className={floatBox}>{ event.title }</div>
-      <div className={`${floatBox} flex items-center`}>
+      <FloatBox>{event.title}</FloatBox>
+      <FloatBox className="flex items-center">
         <div className="i-mdi:access-time mr-1"></div>
         <div>{event.date}</div>
         <div className="ml-2">
@@ -58,12 +65,12 @@ export function ClickMenu({ open, targetRect, events, ...rest }: ClickMenuProps)
             event.time?.start && jstToCst(`${event.date.split(' ')[0]} ${event.time.start}`).format('h:mm A')
           }
         </div>
-      </div>
-      <div className={`${floatBox} flex items-center`}>
+      </FloatBox>
+      <FloatBox className="flex items-center">
         <div className="i-mdi:location mr-1"></div>
         <div>{ event.place.name }</div>
-      </div>
-      <div className={`${floatBox} mb-4`}>
+      </FloatBox>
+      <FloatBox className="flex mb-4">
         <div className="flex flex-wrap gap-1 max-w-[65ch]">
           {event.actors.map((actor, i, originArr) => (
             <div key={i}>
@@ -72,15 +79,15 @@ export function ClickMenu({ open, targetRect, events, ...rest }: ClickMenuProps)
             </div>
           ))}
         </div>
-      </div>
+      </FloatBox>
     </>
   )
 
   return (
     open && events && (
       <>
-        <div className="fixed-full bg-black op-50 z-100" onClick={rest.onClose}></div>
-        <div className="fixed z-101 op-85 flex flex-col gap-2" style={positionStyle} onClick={rest.onClose}>
+        <div className="fixed-full bg-black op-20 z-100" onClick={rest.onClose}></div>
+        <div className="fixed z-101 flex flex-col gap-2" style={positionStyle} onClick={rest.onClose}>
           {events?.map((event, i) => <Info key={i} event={event} />)}
         </div>
       </>
