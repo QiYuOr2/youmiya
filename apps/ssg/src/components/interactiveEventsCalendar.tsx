@@ -54,9 +54,9 @@ export function InteractiveEventsCalendar({ staticId, eventsGrouped }: Props) {
 
       <div className="text-right">
         <div className="mt-2 py-2 px-4 rounded bg-white op-85 shadow inline-flex gap-4">
-          <button onClick={subscribeCalendar}>订阅日历</button>
+          <button onClick={subscribeCalendar}>订阅日程</button>
           <span>・</span>
-          <button onClick={toIssues}>贡献日历</button>
+          <button onClick={toIssues}>贡献日程</button>
         </div>
       </div>
 
