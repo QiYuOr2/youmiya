@@ -57,7 +57,9 @@ export function ClickMenu({ open, targetRect, event, ...rest }: ClickMenuProps) 
             <div className="i-mdi:access-time mr-1"></div>
             <div>{event.date}</div>
             <div className="ml-2">
-              {jstToCst(`${event.date.split(' ')[0]} ${event.time.start}`).format('h:mm A')}
+              {
+                event.time?.start && jstToCst(`${event.date.split(' ')[0]} ${event.time.start}`).format('h:mm A')
+              }
             </div>
           </div>
           <div className={`${floatBox} flex items-center`}>
