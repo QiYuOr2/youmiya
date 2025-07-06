@@ -1,8 +1,10 @@
+import type { MouseEvent } from 'react'
 import type { EventVO } from '@/types'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { getEventByDate, jstToCst } from '@/common/events'
+import { useDateClick } from '@/hooks/useDateClick'
 import 'dayjs/locale/ja'
 
 dayjs.locale('ja')
@@ -27,7 +29,7 @@ function DateCard({ date, event }: DateCardProps) {
   const card = 'px-2.5 py-1.5 h-18 rounded-md'
 
   if (typeof date === 'undefined') {
-    return <div className={`${card} bg-true-gray-50`}></div>
+    return <div className={`${card} bg-true-gray-50 hidden sm:block`}></div>
   }
 
   let colors = activeColors.default
@@ -45,8 +47,13 @@ function DateCard({ date, event }: DateCardProps) {
     ? `${colors.text} ${colors.bg} cursor-pointer`
     : 'bg-true-gray-100'
 
+  const onDateClick = useDateClick()
+
   const restAttrs = {
-    ...(event ? { title: event.title } : {}),
+    ...(event
+      ? { title: event.title, onClick: (elementEvent: MouseEvent<HTMLDivElement>) => onDateClick?.(elementEvent, event) }
+      : {}
+    ),
   }
 
   return (
@@ -63,7 +70,7 @@ function DateCard({ date, event }: DateCardProps) {
           {event.time?.start && event.time?.end
             && (
               <div className="text-xs">
-                <div>{jstToCst(`${event.date} ${event.time.start}`).format('h:mmA')}</div>
+                <div>{jstToCst(`${event.date.split(' ')[0]} ${event.time.start}`).format('h:mm A')}</div>
                 <div></div>
               </div>
             )}
@@ -101,11 +108,12 @@ export function Calendar({ id, month, events, className }: CalendarProps) {
   return (
     <div id={id} className={`rounded-md shadow bg-white p-4 ${className}`}>
       <div className="text-xl mb-3 font-bold">{ yearMonth }</div>
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-3 sm:grid-cols-7 gap-2">
         {
           [...leading, ...days, ...trailing]
-            .map((value: number | undefined) => (
+            .map((value: number | undefined, i) => (
               <DateCard
+                key={i + (id || '')}
                 date={value}
                 event={value ? getEventByDate(events, value) : undefined}
               />
