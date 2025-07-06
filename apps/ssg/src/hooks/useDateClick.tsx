@@ -2,7 +2,7 @@ import type { MouseEvent } from 'react'
 import type { EventVO } from '@/types'
 import { createContext, useContext } from 'react'
 
-export const DateClickContext = createContext<(elementEvent: MouseEvent<HTMLDivElement>, event: EventVO) => void>(() => {})
+export const DateClickContext = createContext<(elementEvent: MouseEvent<HTMLDivElement>, events: EventVO[]) => void>(() => {})
 
 export function useDateClick() {
   const context = useContext(DateClickContext)

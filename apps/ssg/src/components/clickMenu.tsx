@@ -5,11 +5,11 @@ import { jstToCst } from '@/common/events'
 interface ClickMenuProps {
   open: boolean
   targetRect: { x: number, y: number, w: number, h: number }
-  event?: EventVO
+  events?: EventVO[]
   onClose?: () => void
 }
 
-export function ClickMenu({ open, targetRect, event, ...rest }: ClickMenuProps) {
+export function ClickMenu({ open, targetRect, events, ...rest }: ClickMenuProps) {
   const positionStyle = useMemo(() => {
     const style: React.CSSProperties = {}
 
@@ -47,35 +47,41 @@ export function ClickMenu({ open, targetRect, event, ...rest }: ClickMenuProps) 
 
   const floatBox = 'px-3 py-2 bg-white op-95 rounded-lg shadow'
 
+  const Info = ({ event }: { event: EventVO }) => (
+    <>
+      <div className={floatBox}>{ event.title }</div>
+      <div className={`${floatBox} flex items-center`}>
+        <div className="i-mdi:access-time mr-1"></div>
+        <div>{event.date}</div>
+        <div className="ml-2">
+          {
+            event.time?.start && jstToCst(`${event.date.split(' ')[0]} ${event.time.start}`).format('h:mm A')
+          }
+        </div>
+      </div>
+      <div className={`${floatBox} flex items-center`}>
+        <div className="i-mdi:location mr-1"></div>
+        <div>{ event.place.name }</div>
+      </div>
+      <div className={`${floatBox} mb-4`}>
+        <div className="flex flex-wrap gap-1 max-w-[65ch]">
+          {event.actors.map((actor, i, originArr) => (
+            <div key={i}>
+              <span>{actor.name}</span>
+              {i < originArr.length - 1 && <span>・</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  )
+
   return (
-    open && event && (
+    open && events && (
       <>
         <div className="fixed-full bg-black op-50 z-100" onClick={rest.onClose}></div>
         <div className="fixed z-101 op-85 flex flex-col gap-2" style={positionStyle} onClick={rest.onClose}>
-          <div className={floatBox}>{ event.title }</div>
-          <div className={`${floatBox} flex items-center`}>
-            <div className="i-mdi:access-time mr-1"></div>
-            <div>{event.date}</div>
-            <div className="ml-2">
-              {
-                event.time?.start && jstToCst(`${event.date.split(' ')[0]} ${event.time.start}`).format('h:mm A')
-              }
-            </div>
-          </div>
-          <div className={`${floatBox} flex items-center`}>
-            <div className="i-mdi:location mr-1"></div>
-            <div>{ event.place.name }</div>
-          </div>
-          <div className={floatBox}>
-            <div className="flex flex-wrap gap-1 max-w-[65ch]">
-              {event.actors.map((actor, i, originArr) => (
-                <div key={i}>
-                  <span>{actor.name}</span>
-                  {i < originArr.length - 1 && <span>・</span>}
-                </div>
-              ))}
-            </div>
-          </div>
+          {events?.map((event, i) => <Info key={i} event={event} />)}
         </div>
       </>
     )

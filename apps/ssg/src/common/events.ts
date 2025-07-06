@@ -35,7 +35,7 @@ export function groupEventsByMonth(events: EventVO[]): Record<string, EventVO[]>
 }
 
 export function getEventByDate(events: EventVO[], date: number) {
-  return events.find(event => dayjs(event.date.split(' ')[0]).date() === date)
+  return events.slice().filter(event => dayjs(event.date.split(' ')[0]).date() === date)
 }
 
 export function jstToCst(date: string) {

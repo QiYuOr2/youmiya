@@ -3,6 +3,7 @@ import type { EventVO } from '@/types'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
+import { useMemo } from 'react'
 import { getEventByDate, jstToCst } from '@/common/events'
 import { useDateClick } from '@/hooks/useDateClick'
 import 'dayjs/locale/ja'
@@ -23,19 +24,21 @@ const activeColors = {
 
 interface DateCardProps {
   date?: number
-  event?: EventVO
+  events?: EventVO[]
 }
-function DateCard({ date, event }: DateCardProps) {
+function DateCard({ date, events }: DateCardProps) {
   const card = 'px-2.5 py-1.5 h-18 rounded-md'
 
   if (typeof date === 'undefined') {
     return <div className={`${card} bg-true-gray-50 hidden sm:block`}></div>
   }
 
+  const event = useMemo(() => events?.[0], [events])
+
   let colors = activeColors.default
-  if (event) {
+  if (events?.length) {
     const key = Object.keys(activeColors).find(keyword =>
-      event.title.includes(keyword),
+      event!.title.includes(keyword),
     ) as keyof typeof activeColors
 
     if (key) {
@@ -50,8 +53,8 @@ function DateCard({ date, event }: DateCardProps) {
   const onDateClick = useDateClick()
 
   const restAttrs = {
-    ...(event
-      ? { title: event.title, onClick: (elementEvent: MouseEvent<HTMLDivElement>) => onDateClick?.(elementEvent, event) }
+    ...(events?.length
+      ? { title: events[0].title, onClick: (elementEvent: MouseEvent<HTMLDivElement>) => onDateClick?.(elementEvent, events) }
       : {}
     ),
   }
@@ -65,18 +68,20 @@ function DateCard({ date, event }: DateCardProps) {
         <div className="">{date}</div>
         <div className="op-40">{dayInWeek(date)}</div>
       </div>
-      {event && (
-        <div className="mt-auto pb-.5">
-          {event.time?.start && event.time?.end
-            && (
-              <div className="text-xs">
-                <div>{jstToCst(`${event.date.split(' ')[0]} ${event.time.start}`).format('h:mm A')}</div>
-                <div></div>
-              </div>
-            )}
-          <div className="text-xs font-bold line-clamp-1">{ event.title }</div>
-        </div>
-      )}
+      {events?.length
+        ? (
+            <div className="mt-auto pb-.5">
+              {event!.time?.start && event!.time?.end
+                && (
+                  <div className="text-xs">
+                    <div>{jstToCst(`${event!.date.split(' ')[0]} ${event!.time.start}`).format('h:mm A')}</div>
+                    <div></div>
+                  </div>
+                )}
+              <div className="text-xs font-bold line-clamp-1">{ event!.title }</div>
+            </div>
+          )
+        : ''}
     </div>
   )
 }
@@ -115,7 +120,7 @@ export function Calendar({ id, month, events, className }: CalendarProps) {
               <DateCard
                 key={i + (id || '')}
                 date={value}
-                event={value ? getEventByDate(events, value) : undefined}
+                events={value ? getEventByDate(events, value) : undefined}
               />
             ),
             )

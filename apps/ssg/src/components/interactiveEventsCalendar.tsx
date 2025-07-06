@@ -32,9 +32,9 @@ export function InteractiveEventsCalendar({ staticId, eventsGrouped }: Props) {
   }
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [eventMenu, setEventMenu] = useState<EventVO | undefined>(undefined)
+  const [eventMenu, setEventMenu] = useState<EventVO[] | undefined>(undefined)
   const [menuTargetRect, setMenuTargetRect] = useState({ x: 0, y: 0, w: 0, h: 0 })
-  const onDateClick = (elementEvent: MouseEvent<HTMLDivElement>, event: EventVO) => {
+  const onDateClick = (elementEvent: MouseEvent<HTMLDivElement>, events: EventVO[]) => {
     const target = elementEvent.currentTarget.getBoundingClientRect()
     setMenuTargetRect({
       x: target.x,
@@ -42,7 +42,7 @@ export function InteractiveEventsCalendar({ staticId, eventsGrouped }: Props) {
       w: target.width,
       h: target.height,
     })
-    setEventMenu(event)
+    setEventMenu(events)
     setIsMenuOpen(true)
   }
 
@@ -80,7 +80,7 @@ export function InteractiveEventsCalendar({ staticId, eventsGrouped }: Props) {
       <ClickMenu
         open={isMenuOpen}
         targetRect={menuTargetRect}
-        event={eventMenu}
+        events={eventMenu}
         onClose={() => setIsMenuOpen(false)}
       />
     </>
