@@ -1,5 +1,8 @@
 import type { EventVO } from '@/types'
 import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
+
+dayjs.locale('ja')
 
 interface EventsProps {
   title: string
