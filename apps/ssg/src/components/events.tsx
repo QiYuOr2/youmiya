@@ -11,7 +11,12 @@ interface EventsProps {
 const activeColors = {
   'MyGO': { text: 'text-[#3388bb]', bg: 'bg-[#3388bb]' },
   'BanG Dream': { text: 'text-[#C01427]', bg: 'bg-[#C01427]' },
+  'ブシロード': { text: 'text-[#C01427]', bg: 'bg-[#C01427]' },
+  'BUSHIROAD': { text: 'text-[#C01427]', bg: 'bg-[#C01427]' },
   'SELECTION PROJECT': { text: 'text-[#705073]', bg: 'bg-[#705073]' },
+  '小市民': { text: 'text-[#ffbc16]', bg: 'bg-[#ffbc16]' },
+  '僕の心': { text: 'text-[#4C4D6A]', bg: 'bg-[#4C4D6A]' },
+  'ウマ娘': { text: 'text-[#FF8899]', bg: 'bg-[#FF8899]' },
   'default': { text: 'text-[#68c068]', bg: 'bg-[#77DD77]' },
 }
 
