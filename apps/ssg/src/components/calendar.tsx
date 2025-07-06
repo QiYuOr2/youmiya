@@ -12,8 +12,8 @@ dayjs.locale('ja')
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-function dayInWeek(date: number) {
-  return dayjs().date(date).format('dd')
+function dayInWeek(date: string) {
+  return dayjs(date).format('dd')
 }
 
 const activeColors = {
@@ -23,10 +23,11 @@ const activeColors = {
 }
 
 interface DateCardProps {
-  date?: number
+  month: string
+  date: number
   events?: EventVO[]
 }
-function DateCard({ date, events }: DateCardProps) {
+function DateCard({ month, date, events }: DateCardProps) {
   const card = 'px-2.5 py-1.5 h-18 rounded-md'
 
   if (typeof date === 'undefined') {
@@ -66,17 +67,14 @@ function DateCard({ date, events }: DateCardProps) {
     >
       <div className="flex items justify-between">
         <div className="">{date}</div>
-        <div className="op-40">{dayInWeek(date)}</div>
+        <div className="op-40">{dayInWeek(`${month}/${date}`)}</div>
       </div>
       {events?.length
         ? (
             <div className="mt-auto pb-.5">
               {event!.time?.start && event!.time?.end
                 && (
-                  <div className="text-xs">
-                    <div>{jstToCst(`${event!.date.split(' ')[0]} ${event!.time.start}`).format('h:mm A')}</div>
-                    <div></div>
-                  </div>
+                  <div className="text-xs">{jstToCst(`${event!.date.split(' ')[0]} ${event?.time.start || ''}`).format('h:mm A')}</div>
                 )}
               <div className="text-xs font-bold line-clamp-1">{ event!.title }</div>
             </div>
@@ -119,6 +117,7 @@ export function Calendar({ id, month, events, className }: CalendarProps) {
             .map((value: number | undefined, i) => (
               <DateCard
                 key={i + (id || '')}
+                month={month}
                 date={value}
                 events={value ? getEventByDate(events, value) : undefined}
               />
