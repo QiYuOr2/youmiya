@@ -16,15 +16,17 @@ function dayInWeek(date: string) {
   return dayjs(date).format('dd')
 }
 
+// TODO 想办法抽出来
 const activeColors = {
   'MyGO': { text: 'text-[#3388bb]', bg: 'bg-[#3388bb] bg-op-20' },
   'BanG Dream': { text: 'text-[#C01427]', bg: 'bg-[#C01427] bg-op-20' },
+  'SELECTION PROJECT': { text: 'text-[#705073]', bg: 'bg-[#705073] bg-op-20' },
   'default': { text: 'text-[#68c068]', bg: 'bg-[#77DD77] bg-op-20' },
 }
 
 interface DateCardProps {
   month: string
-  date: number
+  date?: number
   events?: EventVO[]
 }
 function DateCard({ month, date, events }: DateCardProps) {

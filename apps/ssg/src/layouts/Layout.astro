@@ -1,6 +1,9 @@
 ---
 import "../styles/global.css";
 import Analytics from '@vercel/analytics/astro'
+import { Navbar } from '@/components/navbar'
+
+const { pathname } = Astro.url
 ---
 
 <!doctype html>
@@ -22,6 +25,8 @@ import Analytics from '@vercel/analytics/astro'
 	<body class="h-screen max-h-screen mx-auto bg-[#3388bb]">
     <div class="fixed-full bg-[url(https://cdn.jsdelivr.net/gh/qiyuor2/blog-image/img/youmiya/20250706.jpg)] bg-top bg-cover bg-no-repeat"></div>
 		<div class="fixed-full bg-gradient-mask bg-black bg-op-50"></div>
+
+		<Navbar currentPath={pathname} />
 
 		<slot />
 
