@@ -28,6 +28,7 @@ catalogs:
     '@types/react-dom': ^19.1.6
 
   utils:
+    '@vercel/analytics': ^1.5.0
     dayjs: ^1.11.13
     fs-extra: ^11.3.0
 
